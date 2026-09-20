@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Flow automation fixture</title>
+  <style>
+    body { background: #111; color: white; font-family: sans-serif; }
+    article { width: 520px; height: 300px; margin: 40px; background: #333; position: relative; }
+    article img { width: 500px; height: 240px; object-fit: cover; }
+    article button { margin: 12px; }
+    #global-menu, #menu, #submenu, #toast { display: none; padding: 16px; background: #222; }
+    #toast { position: fixed; right: 20px; top: 20px; }
+  </style>
+</head>
+<body>
+  <button>Videos</button>
+  <button aria-label="More options" aria-haspopup="menu" id="global-more">Global menu</button>
+  <input aria-label="Search" type="text">
+  <div id="no-results" style="display:none">No results</div>
+  <article role="listitem">
+    <img alt="Fixture video preview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='500' height='240'%3E%3Crect width='500' height='240' fill='%23555'/%3E%3C/svg%3E">
+    <div id="clip-name"></div>
+    <button aria-label="More options" aria-haspopup="menu" id="more">⋮</button>
+  </article>
+  <div id="global-menu" role="menu"><button role="menuitem">Download project</button></div>
+  <div id="menu" role="menu">
+    <button role="menuitem" id="add-prompt">Add to prompt</button>
+    <button role="menuitem" aria-haspopup="menu" id="download">Download</button>
+  </div>
+  <div id="submenu" role="menu">
+    <button role="menuitem" id="original"><strong>720p</strong><span> Original Size</span></button>
+    <button role="menuitem" id="upscaled"><strong>1080p</strong><span> Upscaled</span></button>
+    <button role="menuitem" id="four-k"><strong>4K</strong><span> Upscaled</span></button>
+  </div>
+  <div id="toast"></div>
+  <script>
+    const mp4 = new Uint8Array([
+      0,0,0,24,102,116,121,112,105,115,111,109,0,0,2,0,105,115,111,109
+    ]);
+    document.querySelector('article').onmouseenter = () => {
+      const searching = document.querySelector('input[aria-label="Search"]').value;
+      document.querySelector('#clip-name').textContent = searching
+        ? 'Fixture_Scene_01'
+        : 'Fixture_Scene_01.mp4';
+    };
+    document.querySelector('input[aria-label="Search"]').oninput = (event) => {
+      const query = event.target.value.toLowerCase();
+      // Flow indexes the base video name but not the same query with .mp4.
+      const matches = query === '' || query === 'fixture_scene_01';
+      document.querySelector('article').style.display = matches ? 'block' : 'none';
+      document.querySelector('#no-results').style.display = matches ? 'none' : 'block';
+    };
+    document.querySelector('#global-more').onclick = () => {
+      window.globalMenuClicked = true;
+      document.querySelector('#global-menu').style.display = 'block';
+    };
+    document.querySelector('#more').onclick = () => menu.style.display = 'block';
+    document.querySelector('#add-prompt').onclick = () => {
+      window.addPromptClicked = true;
+    };
+    document.querySelector('#download').onmouseenter = () => submenu.style.display = 'block';
+    document.querySelector('#download').onclick = () => {
+      window.directDownloadClicked = true;
+    };
+    document.querySelector('#upscaled').onclick = () => {
+      window.selectedResolution = '1080p Upscaled';
+      toast.textContent = 'Upscaling your video. This may take several minutes.';
+      toast.style.display = 'block';
+      setTimeout(() => {
+        toast.textContent = 'Upscaling complete!';
+        const blob = new Blob([mp4], {type: 'video/mp4'});
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'fixture.mp4';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      }, 300);
+    };
+  </script>
+</body>
+</html>

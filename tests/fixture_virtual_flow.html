@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Virtual Flow media fixture</title>
+  <style>
+    body { margin: 0; background: #111; color: white; font-family: sans-serif; overflow: hidden; }
+    button { margin: 4px; }
+    .cdk-virtual-scrollable.page-container {
+      height: 240px; width: 380px; overflow-y: auto; position: relative;
+    }
+    #spacer { height: 1540px; position: relative; }
+    article { width: 340px; height: 200px; position: absolute; left: 10px; background: #333; }
+    article img { width: 320px; height: 180px; object-fit: cover; }
+    #clip-name { position: absolute; left: 8px; bottom: 8px; }
+    article button { position: absolute; right: 4px; top: 4px; }
+  </style>
+</head>
+<body>
+  <button>Videos</button>
+  <div class="cdk-virtual-scrollable page-container">
+    <div id="spacer"><div id="mount"></div></div>
+  </div>
+  <script>
+    const names = Array.from({length: 7}, (_, i) =>
+      `Virtual_Scene_${String(i + 1).padStart(2, '0')}.mp4`);
+    const scroller = document.querySelector('.page-container');
+    const mount = document.querySelector('#mount');
+
+    function render() {
+      const index = Math.min(
+        names.length - 1,
+        Math.floor((scroller.scrollTop + scroller.clientHeight / 2) / 220)
+      );
+      mount.innerHTML = '';
+      const article = document.createElement('article');
+      article.setAttribute('role', 'listitem');
+      article.style.top = `${index * 220}px`;
+      article.innerHTML = `
+        <img alt="Virtual video preview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='180'%3E%3Crect width='320' height='180' fill='%23555'/%3E%3C/svg%3E">
+        <div id="clip-name"></div>
+        <button aria-label="More actions" aria-haspopup="menu">&#8942;</button>`;
+      article.onmouseenter = () => {
+        article.querySelector('#clip-name').textContent = names[index];
+      };
+      mount.appendChild(article);
+    }
+
+    scroller.addEventListener('scroll', () => requestAnimationFrame(render));
+    render();
+  </script>
+</body>
+</html>

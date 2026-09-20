@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "updated_at": "2026-09-06T10:01:51+00:00",
+  "items": {
+    "video_scene_02.mp4": {
+      "flow_name": "Video_Scene_02.mp4",
+      "output_filename": "Video_Scene_02_1080p.mp4",
+      "status": "in_progress",
+      "attempts": 1,
+      "last_error": null,
+      "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-2\\Video_Scene_02_1080p.mp4",
+      "updated_at": "2026-09-06T10:01:51+00:00"
+    }
+  }
+}

@@ -1,0 +1,8 @@
+.chrome-profile/
+.chrome-profiles/ 
+.flow-downloader-state.json
+.venv/
+Flow Downloads/
+logs/
+__pycache__/
+.pytest_cache/

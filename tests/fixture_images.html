@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Flow image automation fixture</title>
+  <style>
+    body { background: #111; color: white; font-family: sans-serif; }
+    article { width: 360px; height: 380px; margin: 40px; background: #333; position: relative; }
+    article img { width: 320px; height: 320px; object-fit: cover; }
+    article button { margin: 12px; }
+    #menu, #submenu, #toast { display: none; padding: 16px; background: #222; }
+    #toast { position: fixed; right: 20px; top: 20px; }
+  </style>
+</head>
+<body>
+  <button>Images</button>
+  <input aria-label="Search" type="text">
+  <div id="no-results" style="display:none">No results</div>
+  <article role="listitem">
+    <img alt="Fixture image preview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320'%3E%3Crect width='320' height='320' fill='%23555'/%3E%3C/svg%3E">
+    <div id="image-name"></div>
+    <button aria-label="More options" aria-haspopup="menu" id="more">&#8942;</button>
+  </article>
+  <div id="menu" role="menu">
+    <button role="menuitem">Add to prompt</button>
+    <button role="menuitem" aria-haspopup="menu" id="download">Download</button>
+  </div>
+  <div id="submenu" role="menu">
+    <button role="menuitem" id="original"><strong>1K</strong><span> Original Size</span></button>
+    <button role="menuitem" id="upscaled"><strong>2K</strong><span> Upscaled</span></button>
+  </div>
+  <div id="toast"></div>
+  <script>
+    const png = new Uint8Array([
+      137,80,78,71,13,10,26,10,0,0,0,13,73,72,68,82
+    ]);
+    document.querySelector('article').onmouseenter = () => {
+      const searching = document.querySelector('input[aria-label="Search"]').value;
+      document.querySelector('#image-name').textContent = searching
+        ? 'Fixture_Image_01'
+        : 'Fixture_Image_01.png';
+    };
+    document.querySelector('input[aria-label="Search"]').oninput = (event) => {
+      const query = event.target.value.toLowerCase();
+      const matches = query === '' || query === 'fixture_image_01';
+      document.querySelector('article').style.display = matches ? 'block' : 'none';
+      document.querySelector('#no-results').style.display = matches ? 'none' : 'block';
+    };
+    document.querySelector('#more').onclick = () => menu.style.display = 'block';
+    document.querySelector('#download').onmouseenter = () => submenu.style.display = 'block';
+    document.querySelector('#original').onclick = () => window.originalClicked = true;
+    document.querySelector('#upscaled').onclick = () => {
+      window.selectedImageResolution = '2K Upscaled';
+      toast.textContent = 'Upscaling your image. This may take several minutes.';
+      toast.style.display = 'block';
+      setTimeout(() => {
+        toast.textContent = 'Upscaling complete!';
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(new Blob([png], {type: 'image/png'}));
+        link.download = 'fixture.png';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      }, 300);
+    };
+  </script>
+</body>
+</html>
