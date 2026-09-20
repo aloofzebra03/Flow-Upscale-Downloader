@@ -13,6 +13,7 @@ from flow_downloader import (
     QueueItem,
     QueueValidationError,
     build_manual_login_command,
+    detect_image_format,
     is_valid_image,
     is_valid_mp4,
     load_queue,
@@ -106,6 +107,31 @@ class ImageTests(unittest.TestCase):
             unsupported.write_bytes(b"GIF89a" + b"\x00" * 10)
             self.assertFalse(is_valid_image(wrong))
             self.assertFalse(is_valid_image(unsupported))
+
+    def test_converts_jpeg_bytes_to_requested_png(self):
+        from PIL import Image
+
+        with tempfile.TemporaryDirectory() as raw:
+            directory = Path(raw)
+            mismatched = directory / "flow-output.png"
+            Image.new("RGB", (4, 4), (20, 40, 60)).save(
+                mismatched, format="JPEG"
+            )
+            self.assertEqual(detect_image_format(mismatched), "jpeg")
+            logger = logging.getLogger("image-conversion-test")
+            logger.handlers.clear()
+            logger.addHandler(logging.NullHandler())
+            worker = FlowWorker(
+                context=None,
+                project_url="https://example.invalid",
+                output_dir=directory,
+                manifest=ManifestStore(directory / "state.json"),
+                logger=logger,
+                media_type="images",
+            )
+            worker._normalize_image_format(mismatched, "image/jpeg")
+            self.assertEqual(detect_image_format(mismatched), "png")
+            self.assertTrue(is_valid_image(mismatched))
 
 
 class Mp4Tests(unittest.TestCase):

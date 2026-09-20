@@ -3,6 +3,7 @@ channels:
   - conda-forge
 dependencies:
   - python=3.13
+  - pillow>=11,<13
   - pip
   - pip:
       - playwright>=1.55,<2

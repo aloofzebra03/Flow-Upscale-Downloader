@@ -168,8 +168,9 @@ Download the image queue sequentially:
   --log-dir $LogDir
 ```
 
-Image mode supports `.png`, `.jpg`, `.jpeg`, and `.webp`. The extension in
-`output_filename` must match the actual format downloaded by Flow. It selects
+Image mode supports `.png`, `.jpg`, `.jpeg`, and `.webp`. Flow sometimes
+returns JPEG bytes for an image labeled PNG; the worker detects and converts
+that file so the queue's exact output filename and extension remain valid. It selects
 only the exact `2K Upscaled` image option and refuses to fall back to 1K, 4K,
 or the parent Download action. Remove `--media-type images` to return to the existing 1080p
 video workflow. The queue filename remains `queue.csv` in both modes.

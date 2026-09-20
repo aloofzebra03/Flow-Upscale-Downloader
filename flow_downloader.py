@@ -104,6 +104,7 @@ class CapturedBlobDownload:
     frame: Any
     filename: str
     size: int
+    mime_type: str = ""
 
 
 @dataclass
@@ -193,23 +194,34 @@ def is_valid_mp4(path: Path) -> bool:
         return False
 
 
-def is_valid_image(path: Path) -> bool:
-    """Validate a supported image signature and its requested file extension."""
+def detect_image_format(path: Path) -> str | None:
+    """Return png/jpeg/webp from file bytes, independent of the filename."""
     try:
         if not path.is_file() or path.stat().st_size < 12:
-            return False
+            return None
         with path.open("rb") as handle:
             header = handle.read(16)
-        suffix = path.suffix.lower()
-        if suffix == ".png":
-            return header.startswith(b"\x89PNG\r\n\x1a\n")
-        if suffix in {".jpg", ".jpeg"}:
-            return header.startswith(b"\xff\xd8\xff")
-        if suffix == ".webp":
-            return header.startswith(b"RIFF") and header[8:12] == b"WEBP"
-        return False
+        if header.startswith(b"\x89PNG\r\n\x1a\n"):
+            return "png"
+        if header.startswith(b"\xff\xd8\xff"):
+            return "jpeg"
+        if header.startswith(b"RIFF") and header[8:12] == b"WEBP":
+            return "webp"
+        return None
     except OSError:
-        return False
+        return None
+
+
+def is_valid_image(path: Path) -> bool:
+    """Validate image bytes and ensure they match the destination extension."""
+    actual = detect_image_format(path)
+    expected = {
+        ".png": "png",
+        ".jpg": "jpeg",
+        ".jpeg": "jpeg",
+        ".webp": "webp",
+    }.get(path.suffix.lower())
+    return actual is not None and actual == expected
 
 
 class ManifestStore:
@@ -1249,6 +1261,7 @@ class FlowWorker:
                     frame=frame,
                     filename=str(metadata.get("filename") or "flow-download"),
                     size=int(metadata["size"]),
+                    mime_type=str(metadata.get("type") or ""),
                 )
         return None
 
@@ -1263,6 +1276,8 @@ class FlowWorker:
         try:
             if isinstance(download, CapturedBlobDownload):
                 await self._save_captured_blob(download, temporary)
+                if self.media_type == "images":
+                    self._normalize_image_format(temporary, download.mime_type)
                 if not self._is_valid_output(temporary):
                     raise FlowAutomationError(
                         f"Captured Flow blob is empty or is not a valid {self.media_type[:-1]}"
@@ -1293,12 +1308,16 @@ class FlowWorker:
                 failure = await download.failure()
                 if failure:
                     raise FlowAutomationError(f"Browser download failed: {failure}")
+            if self.media_type == "images":
+                self._normalize_image_format(temporary)
             if not self._is_valid_output(temporary):
                 # With Chrome-native naming Playwright can report success while
                 # copying from the obsolete GUID artifact path. Prefer the
                 # completed, non-.crdownload native file in that case.
                 temporary.unlink(missing_ok=True)
                 recovered_from_stage = await self._recover_staged_download(temporary)
+                if recovered_from_stage and self.media_type == "images":
+                    self._normalize_image_format(temporary)
                 if not recovered_from_stage or not self._is_valid_output(temporary):
                     raise FlowAutomationError(
                         f"Downloaded file is empty or is not a valid {self.media_type[:-1]}"
@@ -1312,6 +1331,63 @@ class FlowWorker:
                 )
         finally:
             temporary.unlink(missing_ok=True)
+
+    def _normalize_image_format(self, path: Path, mime_type: str = "") -> None:
+        """Transcode Flow's bytes when its PNG-looking name actually contains JPEG."""
+        actual = detect_image_format(path)
+        expected = {
+            ".png": "png",
+            ".jpg": "jpeg",
+            ".jpeg": "jpeg",
+            ".webp": "webp",
+        }.get(path.suffix.lower())
+        if actual is None:
+            raise FlowAutomationError(
+                f"Captured Flow blob is not a supported image (reported MIME: {mime_type or 'unknown'})"
+            )
+        if actual == expected:
+            return
+        try:
+            from PIL import Image
+        except ImportError as exc:
+            raise FlowAutomationError(
+                f"Flow returned {actual.upper()} bytes for a {path.suffix} output. "
+                "Install/update the Micromamba environment so Pillow can convert it."
+            ) from exc
+
+        converted = path.with_name(f".{path.name}.{uuid.uuid4().hex}.converted")
+        save_format = {"png": "PNG", "jpeg": "JPEG", "webp": "WEBP"}.get(expected or "")
+        if save_format is None:
+            raise FlowAutomationError(f"Unsupported requested image extension: {path.suffix}")
+        try:
+            with Image.open(path) as source:
+                source.load()
+                image = source
+                save_options: dict[str, Any] = {}
+                if save_format == "JPEG":
+                    if source.mode not in {"RGB", "L"}:
+                        image = source.convert("RGB")
+                    save_options.update(quality=95, subsampling=0)
+                elif save_format == "WEBP":
+                    save_options.update(lossless=True, quality=100)
+                icc_profile = source.info.get("icc_profile")
+                if icc_profile:
+                    save_options["icc_profile"] = icc_profile
+                image.save(converted, format=save_format, **save_options)
+                if image is not source:
+                    image.close()
+            os.replace(converted, path)
+        except (OSError, ValueError) as exc:
+            raise FlowAutomationError(
+                f"Could not convert Flow's {actual.upper()} image to {save_format}: {exc}"
+            ) from exc
+        finally:
+            converted.unlink(missing_ok=True)
+        self.logger.info(
+            "Converted Flow's actual %s image to %s to honor the queue filename",
+            actual.upper(),
+            save_format,
+        )
 
     async def _save_captured_blob(
         self, download: CapturedBlobDownload, temporary: Path
@@ -1380,7 +1456,12 @@ class FlowWorker:
             except OSError:
                 candidates = []
             for candidate in candidates:
-                if not self._is_valid_output(candidate):
+                valid_candidate = (
+                    is_valid_mp4(candidate)
+                    if self.media_type == "videos"
+                    else detect_image_format(candidate) is not None
+                )
+                if not valid_candidate:
                     continue
                 try:
                     os.replace(candidate, temporary)

@@ -65,8 +65,9 @@ Image_Scene_01.png,scene_001.png
 Image_Scene_02.png,scene_002.png
 ```
 
-The output extension must match the format Flow downloads. PNG is the safest
-choice when the Flow source name is a PNG.
+Flow sometimes labels an asset `.png` while returning JPEG bytes. The worker
+detects this mismatch and converts the captured image to the exact format and
+filename requested in `output_filename`.
 
 For each queued clip, the worker uses Flow's top media search first. It tries
 the CSV name as written and then retries without the `.mp4` suffix because
