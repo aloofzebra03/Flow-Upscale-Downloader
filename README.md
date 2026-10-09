@@ -84,6 +84,22 @@ micromamba run -n flow-downloader python flow_downloader.py `
   --queue queue.csv
 ```
 
+If Flow accepts manual upscales in the dedicated profile but immediately
+rejects the Playwright-launched browser, use ordinary-Chrome attachment mode:
+
+```powershell
+micromamba run -n flow-downloader python flow_downloader.py `
+  --ordinary-chrome `
+  --media-type images `
+  --project-url "https://labs.google/fx/tools/flow/project/b91ca69e-1ae6-4fa3-b405-09713711c331" `
+  --queue queue.csv
+```
+
+This starts normal Chrome with the dedicated profile and attaches locally over
+Chrome DevTools Protocol. Close every other Chrome window using that dedicated
+profile before starting. The debugging port is bound only to `127.0.0.1` and is
+closed with Chrome when the run ends.
+
 Completed media is saved in `Flow Downloads`. Progress is stored atomically
 in `.flow-downloader-state.json`, so rerunning the command skips valid completed
 files. Logs and failure screenshots are stored under `logs`.

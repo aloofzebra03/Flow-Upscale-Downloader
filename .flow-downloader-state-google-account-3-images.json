@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-09-20T07:45:33+00:00",
+  "updated_at": "2026-10-03T11:47:05+00:00",
   "items": {
     "ai01.png": {
       "flow_name": "AI01.png",
@@ -9,16 +9,16 @@
       "attempts": 1,
       "last_error": null,
       "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\AI01.png",
-      "updated_at": "2026-09-20T07:41:59+00:00"
+      "updated_at": "2026-09-30T21:02:54+00:00"
     },
     "ai02.png": {
       "flow_name": "AI02.png",
       "output_filename": "AI02.png",
       "status": "completed",
-      "attempts": 1,
+      "attempts": 2,
       "last_error": null,
       "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\AI02.png",
-      "updated_at": "2026-09-20T07:42:03+00:00"
+      "updated_at": "2026-09-30T21:03:16+00:00"
     },
     "ai03.png": {
       "flow_name": "AI03.png",
@@ -27,7 +27,7 @@
       "attempts": 1,
       "last_error": null,
       "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\AI03.png",
-      "updated_at": "2026-09-20T07:42:18+00:00"
+      "updated_at": "2026-09-30T21:03:21+00:00"
     },
     "ai04.png": {
       "flow_name": "AI04.png",
@@ -36,7 +36,7 @@
       "attempts": 1,
       "last_error": null,
       "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\AI04.png",
-      "updated_at": "2026-09-20T07:42:33+00:00"
+      "updated_at": "2026-09-30T21:03:30+00:00"
     },
     "ai05.png": {
       "flow_name": "AI05.png",
@@ -45,7 +45,7 @@
       "attempts": 1,
       "last_error": null,
       "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\AI05.png",
-      "updated_at": "2026-09-20T07:42:49+00:00"
+      "updated_at": "2026-09-30T21:03:34+00:00"
     },
     "ai06.png": {
       "flow_name": "AI06.png",
@@ -54,7 +54,7 @@
       "attempts": 1,
       "last_error": null,
       "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\AI06.png",
-      "updated_at": "2026-09-20T07:43:06+00:00"
+      "updated_at": "2026-09-30T21:03:39+00:00"
     },
     "ai07.png": {
       "flow_name": "AI07.png",
@@ -63,7 +63,7 @@
       "attempts": 1,
       "last_error": null,
       "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\AI07.png",
-      "updated_at": "2026-09-20T07:43:21+00:00"
+      "updated_at": "2026-09-30T21:03:48+00:00"
     },
     "ai08.png": {
       "flow_name": "AI08.png",
@@ -72,7 +72,7 @@
       "attempts": 1,
       "last_error": null,
       "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\AI08.png",
-      "updated_at": "2026-09-20T07:43:38+00:00"
+      "updated_at": "2026-09-30T21:03:58+00:00"
     },
     "g01.png": {
       "flow_name": "G01.png",
@@ -113,29 +113,308 @@
     "g05.png": {
       "flow_name": "G05.png",
       "output_filename": "G05.png",
-      "status": "failed",
-      "attempts": 3,
-      "last_error": "Flow reported an error: error\nUpscaling failed!",
+      "status": "completed",
+      "attempts": 1,
+      "last_error": null,
       "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\G05.png",
-      "updated_at": "2026-09-20T07:44:58+00:00"
+      "updated_at": "2026-09-20T07:58:07+00:00"
     },
     "g06.png": {
       "flow_name": "G06.png",
       "output_filename": "G06.png",
-      "status": "failed",
-      "attempts": 3,
-      "last_error": "Flow reported an error: error\nUpscaling failed!",
+      "status": "completed",
+      "attempts": 1,
+      "last_error": null,
       "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\G06.png",
-      "updated_at": "2026-09-20T07:45:21+00:00"
+      "updated_at": "2026-09-20T07:58:11+00:00"
     },
     "g07.png": {
       "flow_name": "G07.png",
       "output_filename": "G07.png",
       "status": "in_progress",
-      "attempts": 2,
+      "attempts": 1,
       "last_error": null,
       "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\G07.png",
-      "updated_at": "2026-09-20T07:45:33+00:00"
+      "updated_at": "2026-09-20T07:58:11+00:00"
+    },
+    "ai09.png": {
+      "flow_name": "AI09.png",
+      "output_filename": "AI09.png",
+      "status": "completed",
+      "attempts": 1,
+      "last_error": null,
+      "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\AI09.png",
+      "updated_at": "2026-09-30T21:04:03+00:00"
+    },
+    "ai10.png": {
+      "flow_name": "AI10.png",
+      "output_filename": "AI10.png",
+      "status": "completed",
+      "attempts": 1,
+      "last_error": null,
+      "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\AI10.png",
+      "updated_at": "2026-09-30T21:04:08+00:00"
+    },
+    "ai11.png": {
+      "flow_name": "AI11.png",
+      "output_filename": "AI11.png",
+      "status": "completed",
+      "attempts": 1,
+      "last_error": null,
+      "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\AI11.png",
+      "updated_at": "2026-09-30T21:04:24+00:00"
+    },
+    "ai12.png": {
+      "flow_name": "AI12.png",
+      "output_filename": "AI12.png",
+      "status": "completed",
+      "attempts": 1,
+      "last_error": null,
+      "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\AI12.png",
+      "updated_at": "2026-09-30T21:04:39+00:00"
+    },
+    "ai13.png": {
+      "flow_name": "AI13.png",
+      "output_filename": "AI13.png",
+      "status": "completed",
+      "attempts": 1,
+      "last_error": null,
+      "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\AI13.png",
+      "updated_at": "2026-09-30T21:04:56+00:00"
+    },
+    "ai14.png": {
+      "flow_name": "AI14.png",
+      "output_filename": "AI14.png",
+      "status": "completed",
+      "attempts": 1,
+      "last_error": null,
+      "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\AI14.png",
+      "updated_at": "2026-09-30T21:05:11+00:00"
+    },
+    "ai15.png": {
+      "flow_name": "AI15.png",
+      "output_filename": "AI15.png",
+      "status": "completed",
+      "attempts": 1,
+      "last_error": null,
+      "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\AI15.png",
+      "updated_at": "2026-09-30T21:05:27+00:00"
+    },
+    "ai16.png": {
+      "flow_name": "AI16.png",
+      "output_filename": "AI16.png",
+      "status": "completed",
+      "attempts": 1,
+      "last_error": null,
+      "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\AI16.png",
+      "updated_at": "2026-09-30T21:05:43+00:00"
+    },
+    "gr01.png": {
+      "flow_name": "GR01.png",
+      "output_filename": "GR01.png",
+      "status": "completed",
+      "attempts": 1,
+      "last_error": null,
+      "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\GR01.png",
+      "updated_at": "2026-09-30T21:05:58+00:00"
+    },
+    "sc01.png": {
+      "flow_name": "SC01.png",
+      "output_filename": "SC01.png",
+      "status": "completed",
+      "attempts": 1,
+      "last_error": null,
+      "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\SC01.png",
+      "updated_at": "2026-09-30T21:06:13+00:00"
+    },
+    "sc02.png": {
+      "flow_name": "SC02.png",
+      "output_filename": "SC02.png",
+      "status": "completed",
+      "attempts": 1,
+      "last_error": null,
+      "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\SC02.png",
+      "updated_at": "2026-09-30T21:06:17+00:00"
+    },
+    "brazillian_ai01.png": {
+      "flow_name": "brazillian_AI01.png",
+      "output_filename": "brazillian_AI01.png",
+      "status": "completed",
+      "attempts": 1,
+      "last_error": null,
+      "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\brazillian_AI01.png",
+      "updated_at": "2026-10-03T11:41:26+00:00"
+    },
+    "brazillian_ai02.png": {
+      "flow_name": "brazillian_AI02.png",
+      "output_filename": "brazillian_AI02.png",
+      "status": "completed",
+      "attempts": 1,
+      "last_error": null,
+      "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\brazillian_AI02.png",
+      "updated_at": "2026-10-03T11:41:42+00:00"
+    },
+    "brazillian_ai03.png": {
+      "flow_name": "brazillian_AI03.png",
+      "output_filename": "brazillian_AI03.png",
+      "status": "completed",
+      "attempts": 1,
+      "last_error": null,
+      "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\brazillian_AI03.png",
+      "updated_at": "2026-10-03T11:41:59+00:00"
+    },
+    "brazillian_ai04.png": {
+      "flow_name": "brazillian_AI04.png",
+      "output_filename": "brazillian_AI04.png",
+      "status": "completed",
+      "attempts": 1,
+      "last_error": null,
+      "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\brazillian_AI04.png",
+      "updated_at": "2026-10-03T11:42:15+00:00"
+    },
+    "brazillian_ai05.png": {
+      "flow_name": "brazillian_AI05.png",
+      "output_filename": "brazillian_AI05.png",
+      "status": "completed",
+      "attempts": 1,
+      "last_error": null,
+      "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\brazillian_AI05.png",
+      "updated_at": "2026-10-03T11:42:32+00:00"
+    },
+    "brazillian_ai06.png": {
+      "flow_name": "brazillian_AI06.png",
+      "output_filename": "brazillian_AI06.png",
+      "status": "completed",
+      "attempts": 1,
+      "last_error": null,
+      "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\brazillian_AI06.png",
+      "updated_at": "2026-10-03T11:42:49+00:00"
+    },
+    "brazillian_ai07.png": {
+      "flow_name": "brazillian_AI07.png",
+      "output_filename": "brazillian_AI07.png",
+      "status": "completed",
+      "attempts": 1,
+      "last_error": null,
+      "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\brazillian_AI07.png",
+      "updated_at": "2026-10-03T11:43:07+00:00"
+    },
+    "brazillian_ai08.png": {
+      "flow_name": "brazillian_AI08.png",
+      "output_filename": "brazillian_AI08.png",
+      "status": "completed",
+      "attempts": 1,
+      "last_error": null,
+      "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\brazillian_AI08.png",
+      "updated_at": "2026-10-03T11:43:23+00:00"
+    },
+    "brazillian_ai09.png": {
+      "flow_name": "brazillian_AI09.png",
+      "output_filename": "brazillian_AI09.png",
+      "status": "completed",
+      "attempts": 1,
+      "last_error": null,
+      "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\brazillian_AI09.png",
+      "updated_at": "2026-10-03T11:43:41+00:00"
+    },
+    "brazillian_ai10.png": {
+      "flow_name": "brazillian_AI10.png",
+      "output_filename": "brazillian_AI10.png",
+      "status": "completed",
+      "attempts": 1,
+      "last_error": null,
+      "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\brazillian_AI10.png",
+      "updated_at": "2026-10-03T11:43:58+00:00"
+    },
+    "brazillian_g01.png": {
+      "flow_name": "brazillian_G01.png",
+      "output_filename": "brazillian_G01.png",
+      "status": "completed",
+      "attempts": 1,
+      "last_error": null,
+      "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\brazillian_G01.png",
+      "updated_at": "2026-10-03T11:44:14+00:00"
+    },
+    "brazillian_g02.png": {
+      "flow_name": "brazillian_G02.png",
+      "output_filename": "brazillian_G02.png",
+      "status": "completed",
+      "attempts": 1,
+      "last_error": null,
+      "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\brazillian_G02.png",
+      "updated_at": "2026-10-03T11:44:30+00:00"
+    },
+    "brazillian_g03.png": {
+      "flow_name": "brazillian_G03.png",
+      "output_filename": "brazillian_G03.png",
+      "status": "completed",
+      "attempts": 1,
+      "last_error": null,
+      "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\brazillian_G03.png",
+      "updated_at": "2026-10-03T11:44:46+00:00"
+    },
+    "brazillian_g04.png": {
+      "flow_name": "brazillian_G04.png",
+      "output_filename": "brazillian_G04.png",
+      "status": "completed",
+      "attempts": 1,
+      "last_error": null,
+      "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\brazillian_G04.png",
+      "updated_at": "2026-10-03T11:45:02+00:00"
+    },
+    "brazillian_g05.png": {
+      "flow_name": "brazillian_G05.png",
+      "output_filename": "brazillian_G05.png",
+      "status": "completed",
+      "attempts": 1,
+      "last_error": null,
+      "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\brazillian_G05.png",
+      "updated_at": "2026-10-03T11:45:19+00:00"
+    },
+    "brazillian_g06.png": {
+      "flow_name": "brazillian_G06.png",
+      "output_filename": "brazillian_G06.png",
+      "status": "completed",
+      "attempts": 1,
+      "last_error": null,
+      "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\brazillian_G06.png",
+      "updated_at": "2026-10-03T11:45:36+00:00"
+    },
+    "brazillian_c01.png": {
+      "flow_name": "brazillian_C01.png",
+      "output_filename": "brazillian_C01.png",
+      "status": "completed",
+      "attempts": 3,
+      "last_error": null,
+      "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\brazillian_C01.png",
+      "updated_at": "2026-10-03T11:46:12+00:00"
+    },
+    "brazillian_c02.png": {
+      "flow_name": "brazillian_C02.png",
+      "output_filename": "brazillian_C02.png",
+      "status": "completed",
+      "attempts": 1,
+      "last_error": null,
+      "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\brazillian_C02.png",
+      "updated_at": "2026-10-03T11:46:29+00:00"
+    },
+    "brazillian_c03.png": {
+      "flow_name": "brazillian_C03.png",
+      "output_filename": "brazillian_C03.png",
+      "status": "completed",
+      "attempts": 1,
+      "last_error": null,
+      "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\brazillian_C03.png",
+      "updated_at": "2026-10-03T11:46:47+00:00"
+    },
+    "brazillian_c04.png": {
+      "flow_name": "brazillian_C04.png",
+      "output_filename": "brazillian_C04.png",
+      "status": "completed",
+      "attempts": 1,
+      "last_error": null,
+      "output_path": "C:\\Users\\aryan\\Desktop\\Youtube Automation\\Flow Upscale Downloader\\Flow Downloads\\google-account-3\\Images\\brazillian_C04.png",
+      "updated_at": "2026-10-03T11:47:05+00:00"
     }
   }
 }

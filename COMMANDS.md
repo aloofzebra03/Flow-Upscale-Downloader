@@ -159,6 +159,7 @@ Download the image queue sequentially:
 
 ```powershell
 & $Python flow_downloader.py `
+  --ordinary-chrome `
   --media-type images `
   --project-url $ProjectUrl `
   --queue queue.csv `
@@ -167,6 +168,12 @@ Download the image queue sequentially:
   --output-dir $OutputDir `
   --log-dir $LogDir
 ```
+
+`--ordinary-chrome` is recommended for image upscaling when the same profile
+works manually but Flow rejects requests from Playwright's normal launch mode.
+The worker starts visible ordinary Chrome, attaches through a localhost-only
+debugging connection, and closes it at the end. Close all existing Chrome
+windows using `$ProfileDir` before running this command.
 
 Image mode supports `.png`, `.jpg`, `.jpeg`, and `.webp`. Flow sometimes
 returns JPEG bytes for an image labeled PNG; the worker detects and converts

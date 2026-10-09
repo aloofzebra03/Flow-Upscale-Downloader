@@ -11,6 +11,7 @@ import json
 import logging
 import os
 import re
+import socket
 import subprocess
 import sys
 import time
@@ -116,6 +117,15 @@ class ItemState:
     last_error: str | None = None
     output_path: str | None = None
     updated_at: str | None = None
+
+
+@dataclass
+class BrowserRuntime:
+    playwright: Any
+    context: BrowserContext
+    download_stage: Path
+    attached_browser: Any | None = None
+    chrome_process: subprocess.Popen[Any] | None = None
 
 
 def utc_now() -> str:
@@ -313,6 +323,28 @@ def build_manual_login_command(
         "--no-first-run",
         project_url,
     ]
+
+
+def build_ordinary_chrome_command(
+    chrome_path: Path, profile_dir: Path, project_url: str, debugging_port: int
+) -> list[str]:
+    """Launch normal Chrome for a localhost-only Playwright CDP attachment."""
+    return [
+        str(chrome_path),
+        f"--user-data-dir={profile_dir.resolve()}",
+        f"--remote-debugging-port={debugging_port}",
+        "--remote-debugging-address=127.0.0.1",
+        "--remote-allow-origins=*",
+        "--start-maximized",
+        "--no-first-run",
+        project_url,
+    ]
+
+
+def reserve_local_port() -> int:
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        sock.bind(("127.0.0.1", 0))
+        return int(sock.getsockname()[1])
 
 
 def setup_logging(log_dir: Path, verbose: bool = False) -> logging.Logger:
@@ -1615,8 +1647,8 @@ class FlowWorker:
 
 
 async def open_context(
-    args: argparse.Namespace,
-) -> tuple[Any, BrowserContext, Path]:
+    args: argparse.Namespace, logger: logging.Logger
+) -> BrowserRuntime:
     if async_playwright is None:
         raise RuntimeError(
             "Playwright is not installed. Run: python -m pip install -r requirements.txt"
@@ -1628,6 +1660,62 @@ async def open_context(
     ).resolve()
     download_stage.mkdir(parents=True, exist_ok=False)
     playwright = await async_playwright().start()
+    if args.ordinary_chrome:
+        port = reserve_local_port()
+        command = build_ordinary_chrome_command(
+            chrome_path, args.profile_dir, args.project_url, port
+        )
+        chrome_process = subprocess.Popen(command)
+        endpoint = f"http://127.0.0.1:{port}"
+        browser = None
+        deadline = time.monotonic() + 20
+        last_error: Exception | None = None
+        while time.monotonic() < deadline:
+            try:
+                browser = await playwright.chromium.connect_over_cdp(
+                    endpoint, timeout=1_500
+                )
+                break
+            except PlaywrightError as exc:
+                last_error = exc
+                await asyncio.sleep(0.25)
+        if browser is None:
+            try:
+                if chrome_process.poll() is None:
+                    chrome_process.terminate()
+            finally:
+                await playwright.stop()
+                cleanup_download_stage(download_stage, args.log_dir)
+            raise FlowAutomationError(
+                "Could not attach to ordinary Chrome. Close every Chrome window "
+                f"using {args.profile_dir.resolve()} and try again: {last_error}"
+            )
+        contexts = browser.contexts
+        if not contexts:
+            await browser.close()
+            await playwright.stop()
+            cleanup_download_stage(download_stage, args.log_dir)
+            raise FlowAutomationError("Ordinary Chrome exposed no browser context")
+        context = contexts[0]
+        webdriver_value: Any = "unknown"
+        try:
+            pages = context.pages
+            if pages:
+                webdriver_value = await pages[0].evaluate("navigator.webdriver")
+        except PlaywrightError:
+            pass
+        logger.info(
+            "Attached to ordinary Chrome over localhost (navigator.webdriver=%r)",
+            webdriver_value,
+        )
+        return BrowserRuntime(
+            playwright=playwright,
+            context=context,
+            download_stage=download_stage,
+            attached_browser=browser,
+            chrome_process=chrome_process,
+        )
+
     context = await playwright.chromium.launch_persistent_context(
         user_data_dir=args.profile_dir,
         executable_path=chrome_path,
@@ -1642,7 +1730,7 @@ async def open_context(
             "--disable-features=DownloadBubble,DownloadBubbleV2",
         ],
     )
-    return playwright, context, download_stage
+    return BrowserRuntime(playwright, context, download_stage)
 
 
 def cleanup_download_stage(path: Path, log_dir: Path) -> None:
@@ -1684,7 +1772,10 @@ async def run_worker(args: argparse.Namespace, logger: logging.Logger) -> int:
     browser_close_attempts: dict[str, int] = {}
     exhausted_flow_names: set[str] = set()
     while True:
-        playwright, context, download_stage = await open_context(args)
+        runtime = await open_context(args, logger)
+        playwright = runtime.playwright
+        context = runtime.context
+        download_stage = runtime.download_stage
         try:
             worker = FlowWorker(
                 context=context,
@@ -1765,12 +1856,23 @@ async def run_worker(args: argparse.Namespace, logger: logging.Logger) -> int:
             logger.info("Restarting Chrome and resuming from the manifest")
         finally:
             try:
-                await context.close()
+                if runtime.attached_browser is not None:
+                    await runtime.attached_browser.close()
+                else:
+                    await context.close()
             except Exception:
                 # The Playwright driver connection may already be gone after a
                 # renderer/browser crash or Ctrl+C. Cleanup must stay quiet.
                 pass
             await playwright.stop()
+            if (
+                runtime.chrome_process is not None
+                and runtime.chrome_process.poll() is None
+            ):
+                try:
+                    runtime.chrome_process.terminate()
+                except OSError:
+                    pass
             cleanup_download_stage(download_stage, args.log_dir)
 
 
@@ -1781,6 +1883,14 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--project-url", default=DEFAULT_PROJECT_URL)
     parser.add_argument("--queue", type=Path, default=SCRIPT_DIR / "queue.csv")
     parser.add_argument("--login-only", action="store_true")
+    parser.add_argument(
+        "--ordinary-chrome",
+        action="store_true",
+        help=(
+            "Launch ordinary Chrome and attach over localhost instead of using "
+            "Playwright's automation-marked launch mode."
+        ),
+    )
     parser.add_argument(
         "--media-type",
         choices=("videos", "images"),
@@ -1816,7 +1926,13 @@ def main() -> int:
         if args.login_only:
             return run_login_only(args, logger)
         return asyncio.run(run_worker(args, logger))
-    except (QueueValidationError, FileNotFoundError, RuntimeError, PlaywrightError) as exc:
+    except (
+        QueueValidationError,
+        FlowAutomationError,
+        FileNotFoundError,
+        RuntimeError,
+        PlaywrightError,
+    ) as exc:
         logger.error("%s", exc)
         return 2
     except KeyboardInterrupt:

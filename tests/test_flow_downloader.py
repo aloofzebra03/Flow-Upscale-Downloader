@@ -13,6 +13,7 @@ from flow_downloader import (
     QueueItem,
     QueueValidationError,
     build_manual_login_command,
+    build_ordinary_chrome_command,
     detect_image_format,
     is_valid_image,
     is_valid_mp4,
@@ -194,6 +195,20 @@ class UtilityTests(unittest.TestCase):
         self.assertIn("--user-data-dir=", joined)
         self.assertNotIn("--enable-automation", joined)
         self.assertNotIn("remote-debugging", joined)
+        self.assertEqual(command[-1], "https://example.test/project")
+
+    def test_ordinary_chrome_attach_command_has_no_playwright_launch_flag(self):
+        command = build_ordinary_chrome_command(
+            Path("C:/Chrome/chrome.exe"),
+            Path("profile"),
+            "https://example.test/project",
+            9333,
+        )
+        joined = " ".join(command).lower()
+        self.assertIn("--remote-debugging-port=9333", joined)
+        self.assertIn("--remote-debugging-address=127.0.0.1", joined)
+        self.assertNotIn("--enable-automation", joined)
+        self.assertNotIn("--disable-blink-features=automationcontrolled", joined)
         self.assertEqual(command[-1], "https://example.test/project")
 
 
